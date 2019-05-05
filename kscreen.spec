@@ -6,7 +6,7 @@
 #
 Name     : kscreen
 Version  : 5.15.4
-Release  : 16
+Release  : 17
 URL      : https://download.kde.org/stable/plasma/5.15.4/kscreen-5.15.4.tar.xz
 Source0  : https://download.kde.org/stable/plasma/5.15.4/kscreen-5.15.4.tar.xz
 Source99 : https://download.kde.org/stable/plasma/5.15.4/kscreen-5.15.4.tar.xz.sig
@@ -18,9 +18,12 @@ Requires: kscreen-data = %{version}-%{release}
 Requires: kscreen-lib = %{version}-%{release}
 Requires: kscreen-license = %{version}-%{release}
 Requires: kscreen-locales = %{version}-%{release}
+BuildRequires : Linux-PAM-dev
 BuildRequires : buildreq-cmake
 BuildRequires : buildreq-kde
 BuildRequires : kglobalaccel-dev
+BuildRequires : kidletime-dev
+BuildRequires : kwayland-dev
 BuildRequires : libkscreen-dev
 BuildRequires : plasma-framework-dev
 BuildRequires : qtbase-dev mesa-dev
@@ -82,15 +85,22 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1554220271
+export SOURCE_DATE_EPOCH=1557031062
 mkdir -p clr-build
 pushd clr-build
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %cmake ..
 make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1554220271
+export SOURCE_DATE_EPOCH=1557031062
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/kscreen
 cp COPYING %{buildroot}/usr/share/package-licenses/kscreen/COPYING
