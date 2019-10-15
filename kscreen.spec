@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xEC94D18F7F05997E (jr@jriddell.org)
 #
 Name     : kscreen
-Version  : 5.16.5
-Release  : 24
-URL      : https://download.kde.org/stable/plasma/5.16.5/kscreen-5.16.5.tar.xz
-Source0  : https://download.kde.org/stable/plasma/5.16.5/kscreen-5.16.5.tar.xz
-Source1 : https://download.kde.org/stable/plasma/5.16.5/kscreen-5.16.5.tar.xz.sig
+Version  : 5.17.0
+Release  : 25
+URL      : https://download.kde.org/stable/plasma/5.17.0/kscreen-5.17.0.tar.xz
+Source0  : https://download.kde.org/stable/plasma/5.17.0/kscreen-5.17.0.tar.xz
+Source1 : https://download.kde.org/stable/plasma/5.17.0/kscreen-5.17.0.tar.xz.sig
 Summary  : KDE's screen management software
 Group    : Development/Tools
 License  : GPL-2.0 LGPL-2.1
@@ -18,9 +18,12 @@ Requires: kscreen-data = %{version}-%{release}
 Requires: kscreen-lib = %{version}-%{release}
 Requires: kscreen-license = %{version}-%{release}
 Requires: kscreen-locales = %{version}-%{release}
+BuildRequires : Linux-PAM-dev
 BuildRequires : buildreq-cmake
 BuildRequires : buildreq-kde
 BuildRequires : kglobalaccel-dev
+BuildRequires : kidletime-dev
+BuildRequires : kwayland-dev
 BuildRequires : libkscreen-dev
 BuildRequires : plasma-framework-dev
 BuildRequires : qtbase-dev mesa-dev
@@ -75,14 +78,14 @@ locales components for the kscreen package.
 
 
 %prep
-%setup -q -n kscreen-5.16.5
+%setup -q -n kscreen-5.17.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1567642239
+export SOURCE_DATE_EPOCH=1571167266
 mkdir -p clr-build
 pushd clr-build
 # -Werror is for werrorists
@@ -95,19 +98,19 @@ export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %cmake ..
-make  %{?_smp_mflags} VERBOSE=1
+make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1567642239
+export SOURCE_DATE_EPOCH=1571167266
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/kscreen
-cp COPYING %{buildroot}/usr/share/package-licenses/kscreen/COPYING
-cp COPYING.LGPL %{buildroot}/usr/share/package-licenses/kscreen/COPYING.LGPL
+cp %{_builddir}/kscreen-5.17.0/COPYING %{buildroot}/usr/share/package-licenses/kscreen/4cc77b90af91e615a64ae04893fdffa7939db84c
+cp %{_builddir}/kscreen-5.17.0/COPYING.LGPL %{buildroot}/usr/share/package-licenses/kscreen/01a6b4bf79aca9b556822601186afab86e8c4fbf
 pushd clr-build
 %make_install
 popd
-%find_lang kcm_displayconfiguration
+%find_lang kcm_kscreen
 %find_lang kscreen
 %find_lang plasma_applet_org.kde.kscreen
 
@@ -120,16 +123,19 @@ popd
 
 %files data
 %defattr(-,root,root,-)
-/usr/share/icons/hicolor/48x48/actions/kdocumentinfo.png
-/usr/share/icons/hicolor/scalable/actions/kdocumentinfo.svgz
-/usr/share/kcm_kscreen/qml/Output.qml
-/usr/share/kcm_kscreen/qml/OutputIdentifier.qml
-/usr/share/kcm_kscreen/qml/Tip.qml
-/usr/share/kcm_kscreen/qml/main.qml
 /usr/share/kded_kscreen/qml/Osd.qml
 /usr/share/kded_kscreen/qml/OsdItem.qml
 /usr/share/kded_kscreen/qml/OsdSelector.qml
 /usr/share/kded_kscreen/qml/OutputIdentifier.qml
+/usr/share/kpackage/kcms/kcm_kscreen/contents/ui/Output.qml
+/usr/share/kpackage/kcms/kcm_kscreen/contents/ui/OutputIdentifier.qml
+/usr/share/kpackage/kcms/kcm_kscreen/contents/ui/OutputPanel.qml
+/usr/share/kpackage/kcms/kcm_kscreen/contents/ui/Panel.qml
+/usr/share/kpackage/kcms/kcm_kscreen/contents/ui/RotationButton.qml
+/usr/share/kpackage/kcms/kcm_kscreen/contents/ui/Screen.qml
+/usr/share/kpackage/kcms/kcm_kscreen/contents/ui/main.qml
+/usr/share/kpackage/kcms/kcm_kscreen/metadata.desktop
+/usr/share/kpackage/kcms/kcm_kscreen/metadata.json
 /usr/share/kservices5/kcm_kscreen.desktop
 /usr/share/kservices5/plasma-applet-org.kde.kscreen.desktop
 /usr/share/metainfo/org.kde.kscreen.appdata.xml
@@ -138,19 +144,19 @@ popd
 /usr/share/plasma/plasmoids/org.kde.kscreen/contents/ui/main.qml
 /usr/share/plasma/plasmoids/org.kde.kscreen/metadata.desktop
 /usr/share/plasma/plasmoids/org.kde.kscreen/metadata.json
-/usr/share/xdg/kscreen.categories
+/usr/share/qlogging-categories5/kscreen.categories
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/qt5/plugins/kcm_kscreen.so
+/usr/lib64/qt5/plugins/kcms/kcm_kscreen.so
 /usr/lib64/qt5/plugins/kf5/kded/kscreen.so
 /usr/lib64/qt5/plugins/plasma/applets/plasma_applet_kscreen.so
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/kscreen/COPYING
-/usr/share/package-licenses/kscreen/COPYING.LGPL
+/usr/share/package-licenses/kscreen/01a6b4bf79aca9b556822601186afab86e8c4fbf
+/usr/share/package-licenses/kscreen/4cc77b90af91e615a64ae04893fdffa7939db84c
 
-%files locales -f kcm_displayconfiguration.lang -f kscreen.lang -f plasma_applet_org.kde.kscreen.lang
+%files locales -f kcm_kscreen.lang -f kscreen.lang -f plasma_applet_org.kde.kscreen.lang
 %defattr(-,root,root,-)
 
