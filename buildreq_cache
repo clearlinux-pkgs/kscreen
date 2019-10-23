@@ -1,7 +1,8 @@
-5.17.0
+5.17.1
 Linux-PAM-dev
 kglobalaccel-dev
 kidletime-dev
 kwayland-dev
 libkscreen-dev
 plasma-framework-dev
+util-linux
