@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xEC94D18F7F05997E (jr@jriddell.org)
 #
 Name     : kscreen
-Version  : 5.17.5
-Release  : 30
-URL      : https://download.kde.org/stable/plasma/5.17.5/kscreen-5.17.5.tar.xz
-Source0  : https://download.kde.org/stable/plasma/5.17.5/kscreen-5.17.5.tar.xz
-Source1  : https://download.kde.org/stable/plasma/5.17.5/kscreen-5.17.5.tar.xz.sig
+Version  : 5.18.0
+Release  : 31
+URL      : https://download.kde.org/stable/plasma/5.18.0/kscreen-5.18.0.tar.xz
+Source0  : https://download.kde.org/stable/plasma/5.18.0/kscreen-5.18.0.tar.xz
+Source1  : https://download.kde.org/stable/plasma/5.18.0/kscreen-5.18.0.tar.xz.sig
 Summary  : KDE's screen management software
 Group    : Development/Tools
 License  : GPL-2.0 LGPL-2.1
@@ -75,15 +75,15 @@ locales components for the kscreen package.
 
 
 %prep
-%setup -q -n kscreen-5.17.5
-cd %{_builddir}/kscreen-5.17.5
+%setup -q -n kscreen-5.18.0
+cd %{_builddir}/kscreen-5.18.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1578427205
+export SOURCE_DATE_EPOCH=1581441895
 mkdir -p clr-build
 pushd clr-build
 # -Werror is for werrorists
@@ -100,11 +100,11 @@ make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1578427205
+export SOURCE_DATE_EPOCH=1581441895
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/kscreen
-cp %{_builddir}/kscreen-5.17.5/COPYING %{buildroot}/usr/share/package-licenses/kscreen/4cc77b90af91e615a64ae04893fdffa7939db84c
-cp %{_builddir}/kscreen-5.17.5/COPYING.LGPL %{buildroot}/usr/share/package-licenses/kscreen/01a6b4bf79aca9b556822601186afab86e8c4fbf
+cp %{_builddir}/kscreen-5.18.0/COPYING %{buildroot}/usr/share/package-licenses/kscreen/4cc77b90af91e615a64ae04893fdffa7939db84c
+cp %{_builddir}/kscreen-5.18.0/COPYING.LGPL %{buildroot}/usr/share/package-licenses/kscreen/01a6b4bf79aca9b556822601186afab86e8c4fbf
 pushd clr-build
 %make_install
 popd
@@ -125,6 +125,7 @@ popd
 /usr/share/kded_kscreen/qml/OsdItem.qml
 /usr/share/kded_kscreen/qml/OsdSelector.qml
 /usr/share/kded_kscreen/qml/OutputIdentifier.qml
+/usr/share/kpackage/kcms/kcm_kscreen/contents/ui/Orientation.qml
 /usr/share/kpackage/kcms/kcm_kscreen/contents/ui/Output.qml
 /usr/share/kpackage/kcms/kcm_kscreen/contents/ui/OutputIdentifier.qml
 /usr/share/kpackage/kcms/kcm_kscreen/contents/ui/OutputPanel.qml
