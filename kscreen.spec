@@ -6,7 +6,7 @@
 #
 Name     : kscreen
 Version  : 5.19.2
-Release  : 39
+Release  : 40
 URL      : https://download.kde.org/stable/plasma/5.19.2/kscreen-5.19.2.tar.xz
 Source0  : https://download.kde.org/stable/plasma/5.19.2/kscreen-5.19.2.tar.xz
 Source1  : https://download.kde.org/stable/plasma/5.19.2/kscreen-5.19.2.tar.xz.sig
@@ -85,7 +85,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1592941090
+export SOURCE_DATE_EPOCH=1592941697
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -101,7 +101,7 @@ make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1592941090
+export SOURCE_DATE_EPOCH=1592941697
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/kscreen
 cp %{_builddir}/kscreen-5.19.2/COPYING %{buildroot}/usr/share/package-licenses/kscreen/4cc77b90af91e615a64ae04893fdffa7939db84c
