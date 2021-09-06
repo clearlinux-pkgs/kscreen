@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xEC94D18F7F05997E (jr@jriddell.org)
 #
 Name     : kscreen
-Version  : 5.22.1
-Release  : 50
-URL      : https://download.kde.org/stable/plasma/5.22.1/kscreen-5.22.1.tar.xz
-Source0  : https://download.kde.org/stable/plasma/5.22.1/kscreen-5.22.1.tar.xz
-Source1  : https://download.kde.org/stable/plasma/5.22.1/kscreen-5.22.1.tar.xz.sig
+Version  : 5.22.5
+Release  : 51
+URL      : https://download.kde.org/stable/plasma/5.22.5/kscreen-5.22.5.tar.xz
+Source0  : https://download.kde.org/stable/plasma/5.22.5/kscreen-5.22.5.tar.xz
+Source1  : https://download.kde.org/stable/plasma/5.22.5/kscreen-5.22.5.tar.xz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0 LGPL-2.1
@@ -77,35 +77,35 @@ locales components for the kscreen package.
 
 
 %prep
-%setup -q -n kscreen-5.22.1
-cd %{_builddir}/kscreen-5.22.1
+%setup -q -n kscreen-5.22.5
+cd %{_builddir}/kscreen-5.22.5
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1623811279
+export SOURCE_DATE_EPOCH=1630964074
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
-export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=auto "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto "
 %cmake ..
 make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1623811279
+export SOURCE_DATE_EPOCH=1630964074
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/kscreen
-cp %{_builddir}/kscreen-5.22.1/COPYING %{buildroot}/usr/share/package-licenses/kscreen/4cc77b90af91e615a64ae04893fdffa7939db84c
-cp %{_builddir}/kscreen-5.22.1/COPYING.LGPL %{buildroot}/usr/share/package-licenses/kscreen/01a6b4bf79aca9b556822601186afab86e8c4fbf
+cp %{_builddir}/kscreen-5.22.5/COPYING %{buildroot}/usr/share/package-licenses/kscreen/4cc77b90af91e615a64ae04893fdffa7939db84c
+cp %{_builddir}/kscreen-5.22.5/COPYING.LGPL %{buildroot}/usr/share/package-licenses/kscreen/01a6b4bf79aca9b556822601186afab86e8c4fbf
 pushd clr-build
 %make_install
 popd
@@ -137,7 +137,6 @@ popd
 /usr/share/kpackage/kcms/kcm_kscreen/metadata.desktop
 /usr/share/kpackage/kcms/kcm_kscreen/metadata.json
 /usr/share/kservices5/kcm_kscreen.desktop
-/usr/share/kservices5/plasma-applet-org.kde.kscreen.desktop
 /usr/share/metainfo/org.kde.kscreen.appdata.xml
 /usr/share/plasma/plasmoids/org.kde.kscreen/contents/ui/PresentationModeItem.qml
 /usr/share/plasma/plasmoids/org.kde.kscreen/contents/ui/ScreenLayoutSelection.qml
