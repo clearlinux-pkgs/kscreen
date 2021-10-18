@@ -4,7 +4,7 @@
 #
 Name     : kscreen
 Version  : 5.23.0
-Release  : 52
+Release  : 53
 URL      : https://download.kde.org/stable/plasma/5.23.0/kscreen-5.23.0.tar.xz
 Source0  : https://download.kde.org/stable/plasma/5.23.0/kscreen-5.23.0.tar.xz
 Summary  : No detailed summary available
