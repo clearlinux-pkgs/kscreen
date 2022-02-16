@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xD7574483BB57B18D (jr@jriddell.org)
 #
 Name     : kscreen
-Version  : 5.24.0
-Release  : 59
-URL      : https://download.kde.org/stable/plasma/5.24.0/kscreen-5.24.0.tar.xz
-Source0  : https://download.kde.org/stable/plasma/5.24.0/kscreen-5.24.0.tar.xz
-Source1  : https://download.kde.org/stable/plasma/5.24.0/kscreen-5.24.0.tar.xz.sig
+Version  : 5.24.1
+Release  : 60
+URL      : https://download.kde.org/stable/plasma/5.24.1/kscreen-5.24.1.tar.xz
+Source0  : https://download.kde.org/stable/plasma/5.24.1/kscreen-5.24.1.tar.xz
+Source1  : https://download.kde.org/stable/plasma/5.24.1/kscreen-5.24.1.tar.xz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0 GPL-3.0 LGPL-2.1
@@ -76,15 +76,15 @@ locales components for the kscreen package.
 
 
 %prep
-%setup -q -n kscreen-5.24.0
-cd %{_builddir}/kscreen-5.24.0
+%setup -q -n kscreen-5.24.1
+cd %{_builddir}/kscreen-5.24.1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1644775876
+export SOURCE_DATE_EPOCH=1645026006
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -100,15 +100,15 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1644775876
+export SOURCE_DATE_EPOCH=1645026006
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/kscreen
-cp %{_builddir}/kscreen-5.24.0/LICENSES/GPL-2.0-only.txt %{buildroot}/usr/share/package-licenses/kscreen/3e8971c6c5f16674958913a94a36b1ea7a00ac46
-cp %{_builddir}/kscreen-5.24.0/LICENSES/GPL-2.0-or-later.txt %{buildroot}/usr/share/package-licenses/kscreen/3e8971c6c5f16674958913a94a36b1ea7a00ac46
-cp %{_builddir}/kscreen-5.24.0/LICENSES/GPL-3.0-only.txt %{buildroot}/usr/share/package-licenses/kscreen/2123756e0b1fc8243547235a33c0fcabfe3b9a51
-cp %{_builddir}/kscreen-5.24.0/LICENSES/LGPL-2.1-or-later.txt %{buildroot}/usr/share/package-licenses/kscreen/81b58c89ceef8e9f8bd5d00a287edbd15f9d3567
-cp %{_builddir}/kscreen-5.24.0/LICENSES/LicenseRef-KDE-Accepted-GPL.txt %{buildroot}/usr/share/package-licenses/kscreen/7d9831e05094ce723947d729c2a46a09d6e90275
-cp %{_builddir}/kscreen-5.24.0/LICENSES/LicenseRef-KDE-Accepted-GPL.txt %{buildroot}/usr/share/package-licenses/kscreen/7d9831e05094ce723947d729c2a46a09d6e90275
+cp %{_builddir}/kscreen-5.24.1/LICENSES/GPL-2.0-only.txt %{buildroot}/usr/share/package-licenses/kscreen/3e8971c6c5f16674958913a94a36b1ea7a00ac46
+cp %{_builddir}/kscreen-5.24.1/LICENSES/GPL-2.0-or-later.txt %{buildroot}/usr/share/package-licenses/kscreen/3e8971c6c5f16674958913a94a36b1ea7a00ac46
+cp %{_builddir}/kscreen-5.24.1/LICENSES/GPL-3.0-only.txt %{buildroot}/usr/share/package-licenses/kscreen/2123756e0b1fc8243547235a33c0fcabfe3b9a51
+cp %{_builddir}/kscreen-5.24.1/LICENSES/LGPL-2.1-or-later.txt %{buildroot}/usr/share/package-licenses/kscreen/81b58c89ceef8e9f8bd5d00a287edbd15f9d3567
+cp %{_builddir}/kscreen-5.24.1/LICENSES/LicenseRef-KDE-Accepted-GPL.txt %{buildroot}/usr/share/package-licenses/kscreen/7d9831e05094ce723947d729c2a46a09d6e90275
+cp %{_builddir}/kscreen-5.24.1/LICENSES/LicenseRef-KDE-Accepted-GPL.txt %{buildroot}/usr/share/package-licenses/kscreen/7d9831e05094ce723947d729c2a46a09d6e90275
 pushd clr-build
 %make_install
 popd
