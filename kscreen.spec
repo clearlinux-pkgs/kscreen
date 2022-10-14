@@ -5,26 +5,27 @@
 # Source0 file verified with key 0xD7574483BB57B18D (jr@jriddell.org)
 #
 Name     : kscreen
-Version  : 5.25.5
-Release  : 70
-URL      : https://download.kde.org/stable/plasma/5.25.5/kscreen-5.25.5.tar.xz
-Source0  : https://download.kde.org/stable/plasma/5.25.5/kscreen-5.25.5.tar.xz
-Source1  : https://download.kde.org/stable/plasma/5.25.5/kscreen-5.25.5.tar.xz.sig
+Version  : 5.26.0
+Release  : 71
+URL      : https://download.kde.org/stable/plasma/5.26.0/kscreen-5.26.0.tar.xz
+Source0  : https://download.kde.org/stable/plasma/5.26.0/kscreen-5.26.0.tar.xz
+Source1  : https://download.kde.org/stable/plasma/5.26.0/kscreen-5.26.0.tar.xz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : GPL-2.0 GPL-3.0 LGPL-2.1
+License  : CC0-1.0 GPL-2.0 GPL-3.0 LGPL-2.0
 Requires: kscreen-bin = %{version}-%{release}
 Requires: kscreen-data = %{version}-%{release}
 Requires: kscreen-lib = %{version}-%{release}
 Requires: kscreen-license = %{version}-%{release}
 Requires: kscreen-locales = %{version}-%{release}
+Requires: kscreen-services = %{version}-%{release}
 BuildRequires : buildreq-cmake
 BuildRequires : buildreq-kde
 BuildRequires : extra-cmake-modules pkgconfig(x11-xcb)
 BuildRequires : extra-cmake-modules pkgconfig(xcb) xcb-util-cursor-dev xcb-util-image-dev xcb-util-keysyms-dev xcb-util-renderutil-dev xcb-util-wm-dev xcb-util-dev
 BuildRequires : extra-cmake-modules-data
 BuildRequires : kglobalaccel-dev
-BuildRequires : ki18n-dev
+BuildRequires : layer-shell-qt-dev
 BuildRequires : libX11-dev libICE-dev libSM-dev libXau-dev libXcomposite-dev libXcursor-dev libXdamage-dev libXdmcp-dev libXext-dev libXfixes-dev libXft-dev libXi-dev libXinerama-dev libXi-dev libXmu-dev libXpm-dev libXrandr-dev libXrender-dev libXres-dev libXScrnSaver-dev libXt-dev libXtst-dev libXv-dev libXxf86vm-dev
 BuildRequires : libkscreen-dev
 BuildRequires : qtbase-dev mesa-dev
@@ -39,6 +40,7 @@ Summary: bin components for the kscreen package.
 Group: Binaries
 Requires: kscreen-data = %{version}-%{release}
 Requires: kscreen-license = %{version}-%{release}
+Requires: kscreen-services = %{version}-%{release}
 
 %description bin
 bin components for the kscreen package.
@@ -78,16 +80,24 @@ Group: Default
 locales components for the kscreen package.
 
 
+%package services
+Summary: services components for the kscreen package.
+Group: Systemd services
+
+%description services
+services components for the kscreen package.
+
+
 %prep
-%setup -q -n kscreen-5.25.5
-cd %{_builddir}/kscreen-5.25.5
+%setup -q -n kscreen-5.26.0
+cd %{_builddir}/kscreen-5.26.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1662500618
+export SOURCE_DATE_EPOCH=1665710260
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -103,13 +113,14 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1662500618
+export SOURCE_DATE_EPOCH=1665710260
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/kscreen
+cp %{_builddir}/kscreen-%{version}/LICENSES/CC0-1.0.txt %{buildroot}/usr/share/package-licenses/kscreen/82da472f6d00dc5f0a651f33ebb320aa9c7b08d0 || :
 cp %{_builddir}/kscreen-%{version}/LICENSES/GPL-2.0-only.txt %{buildroot}/usr/share/package-licenses/kscreen/3e8971c6c5f16674958913a94a36b1ea7a00ac46 || :
 cp %{_builddir}/kscreen-%{version}/LICENSES/GPL-2.0-or-later.txt %{buildroot}/usr/share/package-licenses/kscreen/3e8971c6c5f16674958913a94a36b1ea7a00ac46 || :
 cp %{_builddir}/kscreen-%{version}/LICENSES/GPL-3.0-only.txt %{buildroot}/usr/share/package-licenses/kscreen/2123756e0b1fc8243547235a33c0fcabfe3b9a51 || :
-cp %{_builddir}/kscreen-%{version}/LICENSES/LGPL-2.1-or-later.txt %{buildroot}/usr/share/package-licenses/kscreen/81b58c89ceef8e9f8bd5d00a287edbd15f9d3567 || :
+cp %{_builddir}/kscreen-%{version}/LICENSES/LGPL-2.0-or-later.txt %{buildroot}/usr/share/package-licenses/kscreen/5c6c38fa1b6ac7c66252c83d1203e997ae3d1c98 || :
 cp %{_builddir}/kscreen-%{version}/LICENSES/LicenseRef-KDE-Accepted-GPL.txt %{buildroot}/usr/share/package-licenses/kscreen/7d9831e05094ce723947d729c2a46a09d6e90275 || :
 cp %{_builddir}/kscreen-%{version}/LICENSES/LicenseRef-KDE-Accepted-GPL.txt %{buildroot}/usr/share/package-licenses/kscreen/7d9831e05094ce723947d729c2a46a09d6e90275 || :
 pushd clr-build
@@ -121,6 +132,7 @@ popd
 
 %files
 %defattr(-,root,root,-)
+/usr/lib64/libexec/kscreen_osd_service
 
 %files bin
 %defattr(-,root,root,-)
@@ -128,16 +140,16 @@ popd
 
 %files data
 %defattr(-,root,root,-)
+/usr/share/applications/kcm_kscreen.desktop
+/usr/share/dbus-1/services/org.kde.kscreen.osdService.service
 /usr/share/kded_kscreen/qml/OsdSelector.qml
 /usr/share/kpackage/kcms/kcm_kscreen/contents/ui/Orientation.qml
 /usr/share/kpackage/kcms/kcm_kscreen/contents/ui/Output.qml
-/usr/share/kpackage/kcms/kcm_kscreen/contents/ui/OutputIdentifier.qml
 /usr/share/kpackage/kcms/kcm_kscreen/contents/ui/OutputPanel.qml
 /usr/share/kpackage/kcms/kcm_kscreen/contents/ui/Panel.qml
 /usr/share/kpackage/kcms/kcm_kscreen/contents/ui/RotationButton.qml
 /usr/share/kpackage/kcms/kcm_kscreen/contents/ui/Screen.qml
 /usr/share/kpackage/kcms/kcm_kscreen/contents/ui/main.qml
-/usr/share/kservices5/kcm_kscreen.desktop
 /usr/share/kservices5/plasma-applet-org.kde.kscreen.desktop
 /usr/share/metainfo/org.kde.kscreen.appdata.xml
 /usr/share/plasma/plasmoids/org.kde.kscreen/contents/ui/InhibitionHint.qml
@@ -150,16 +162,21 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/qt5/plugins/kcms/kcm_kscreen.so
 /usr/lib64/qt5/plugins/kf5/kded/kscreen.so
 /usr/lib64/qt5/plugins/plasma/applets/plasma_applet_kscreen.so
+/usr/lib64/qt5/plugins/plasma/kcms/systemsettings/kcm_kscreen.so
 
 %files license
 %defattr(0644,root,root,0755)
 /usr/share/package-licenses/kscreen/2123756e0b1fc8243547235a33c0fcabfe3b9a51
 /usr/share/package-licenses/kscreen/3e8971c6c5f16674958913a94a36b1ea7a00ac46
+/usr/share/package-licenses/kscreen/5c6c38fa1b6ac7c66252c83d1203e997ae3d1c98
 /usr/share/package-licenses/kscreen/7d9831e05094ce723947d729c2a46a09d6e90275
-/usr/share/package-licenses/kscreen/81b58c89ceef8e9f8bd5d00a287edbd15f9d3567
+/usr/share/package-licenses/kscreen/82da472f6d00dc5f0a651f33ebb320aa9c7b08d0
+
+%files services
+%defattr(-,root,root,-)
+/usr/lib/systemd/user/plasma-kscreen-osd.service
 
 %files locales -f kcm_kscreen.lang -f kscreen.lang -f plasma_applet_org.kde.kscreen.lang
 %defattr(-,root,root,-)
