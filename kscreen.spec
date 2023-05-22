@@ -6,11 +6,11 @@
 # Source0 file verified with key 0xD7574483BB57B18D (jr@jriddell.org)
 #
 Name     : kscreen
-Version  : 5.27.4
-Release  : 82
-URL      : https://download.kde.org/stable/plasma/5.27.4/kscreen-5.27.4.tar.xz
-Source0  : https://download.kde.org/stable/plasma/5.27.4/kscreen-5.27.4.tar.xz
-Source1  : https://download.kde.org/stable/plasma/5.27.4/kscreen-5.27.4.tar.xz.sig
+Version  : 5.27.5
+Release  : 83
+URL      : https://download.kde.org/stable/plasma/5.27.5/kscreen-5.27.5.tar.xz
+Source0  : https://download.kde.org/stable/plasma/5.27.5/kscreen-5.27.5.tar.xz
+Source1  : https://download.kde.org/stable/plasma/5.27.5/kscreen-5.27.5.tar.xz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : CC0-1.0 GPL-2.0 GPL-3.0 LGPL-2.0
@@ -29,6 +29,7 @@ BuildRequires : kglobalaccel-dev
 BuildRequires : layer-shell-qt-dev
 BuildRequires : libX11-dev libICE-dev libSM-dev libXau-dev libXcomposite-dev libXcursor-dev libXdamage-dev libXdmcp-dev libXext-dev libXfixes-dev libXft-dev libXi-dev libXinerama-dev libXi-dev libXmu-dev libXpm-dev libXrandr-dev libXrender-dev libXres-dev libXScrnSaver-dev libXt-dev libXtst-dev libXv-dev libXxf86vm-dev
 BuildRequires : libkscreen-dev
+BuildRequires : plasma-framework-dev
 BuildRequires : qtbase-dev mesa-dev
 # Suppress stripping binaries
 %define __strip /bin/true
@@ -87,37 +88,55 @@ locales components for the kscreen package.
 %package services
 Summary: services components for the kscreen package.
 Group: Systemd services
+Requires: systemd
 
 %description services
 services components for the kscreen package.
 
 
 %prep
-%setup -q -n kscreen-5.27.4
-cd %{_builddir}/kscreen-5.27.4
+%setup -q -n kscreen-5.27.5
+cd %{_builddir}/kscreen-5.27.5
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1680721213
+export SOURCE_DATE_EPOCH=1684783347
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
-export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+%cmake ..
+make  %{?_smp_mflags}
+popd
+mkdir -p clr-build-avx2
+pushd clr-build-avx2
+export GCC_IGNORE_WERROR=1
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -Wl,-z,x86-64-v3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd -march=x86-64-v3 "
+export FCFLAGS="$FFLAGS -O3 -Wl,-z,x86-64-v3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd -march=x86-64-v3 "
+export FFLAGS="$FFLAGS -O3 -Wl,-z,x86-64-v3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd -march=x86-64-v3 "
+export CXXFLAGS="$CXXFLAGS -O3 -Wl,-z,x86-64-v3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd -march=x86-64-v3 "
+export CFLAGS="$CFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
+export FFLAGS="$FFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
+export FCFLAGS="$FCFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
 %cmake ..
 make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1680721213
+export SOURCE_DATE_EPOCH=1684783347
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/kscreen
 cp %{_builddir}/kscreen-%{version}/LICENSES/CC0-1.0.txt %{buildroot}/usr/share/package-licenses/kscreen/82da472f6d00dc5f0a651f33ebb320aa9c7b08d0 || :
@@ -127,6 +146,9 @@ cp %{_builddir}/kscreen-%{version}/LICENSES/GPL-3.0-only.txt %{buildroot}/usr/sh
 cp %{_builddir}/kscreen-%{version}/LICENSES/LGPL-2.0-or-later.txt %{buildroot}/usr/share/package-licenses/kscreen/5c6c38fa1b6ac7c66252c83d1203e997ae3d1c98 || :
 cp %{_builddir}/kscreen-%{version}/LICENSES/LicenseRef-KDE-Accepted-GPL.txt %{buildroot}/usr/share/package-licenses/kscreen/7d9831e05094ce723947d729c2a46a09d6e90275 || :
 cp %{_builddir}/kscreen-%{version}/LICENSES/LicenseRef-KDE-Accepted-GPL.txt %{buildroot}/usr/share/package-licenses/kscreen/7d9831e05094ce723947d729c2a46a09d6e90275 || :
+pushd clr-build-avx2
+%make_install_v3  || :
+popd
 pushd clr-build
 %make_install
 popd
@@ -134,13 +156,16 @@ popd
 %find_lang kscreen
 %find_lang kscreen_common
 %find_lang plasma_applet_org.kde.kscreen
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
+/V3/usr/lib64/libexec/kscreen_osd_service
 /usr/lib64/libexec/kscreen_osd_service
 
 %files bin
 %defattr(-,root,root,-)
+/V3/usr/bin/kscreen-console
 /usr/bin/kscreen-console
 
 %files data
@@ -166,6 +191,9 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
+/V3/usr/lib64/qt5/plugins/kf5/kded/kscreen.so
+/V3/usr/lib64/qt5/plugins/plasma/applets/plasma_applet_kscreen.so
+/V3/usr/lib64/qt5/plugins/plasma/kcms/systemsettings/kcm_kscreen.so
 /usr/lib64/qt5/plugins/kf5/kded/kscreen.so
 /usr/lib64/qt5/plugins/plasma/applets/plasma_applet_kscreen.so
 /usr/lib64/qt5/plugins/plasma/kcms/systemsettings/kcm_kscreen.so
